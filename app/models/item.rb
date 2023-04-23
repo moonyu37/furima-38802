@@ -10,6 +10,7 @@ class Item < ApplicationRecord
 
 
   #空の投稿を保存できないようにする
+  validates :image, presence: true
   validates :item_name, presence: true
   validates :explanation, presence: true
   with_options presence: true,format: { with: /\A[0-9]+\z/ } do
