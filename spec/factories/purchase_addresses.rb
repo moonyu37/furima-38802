@@ -1,7 +1,5 @@
 FactoryBot.define do
   factory :purchase_address do
-    user_id      { 1 }
-    item_id      { 2 }
     post_code      { '111-1111' }
     sender_area_id   { 2 }
     municipalities   {'横浜市緑区'}
