@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :user
+  has_one :purchase
   has_one_attached :image
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :category
@@ -9,7 +10,6 @@ class Item < ApplicationRecord
   belongs_to :shipping_day
 
 
-  #空の投稿を保存できないようにする
   validates :image, presence: true
   validates :item_name, presence: true, length: { maximum: 40 }
   validates :explanation, presence: true,length: { maximum: 1000 }
