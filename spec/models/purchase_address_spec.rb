@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe PurchaseAddress, type: :model do
-  before do
-    @purchase_address = FactoryBot.build(:purchase_address)
-  end
-
   describe '配送先情報の保存' do
+    before do
+      user = FactoryBot.create(:user)
+      item = FactoryBot.create(:item)
+      @purchase_address = FactoryBot.build(:purchase_address, user_id: user.id, item_id: item.id)
+    end
+
+  
     context '配送先が保存できる場合' do
       it 'すべての項目が入力されていれば保存できる' do
         expect(@purchase_address).to be_valid
@@ -65,6 +68,25 @@ RSpec.describe PurchaseAddress, type: :model do
         @purchase_address.valid?
         expect(@purchase_address.errors.full_messages).to include("Phone number is invalid")
       end
+
+      it '電話番号が9桁以下では保存できない' do
+        @purchase_address.phone_number = '090000000'
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Phone number is invalid")
+      end
+
+      it 'user_id（購入者）が空だと購入できない' do
+        @purchase_address.user_id = ''
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("User can't be blank")
+      end
+
+      it 'item_id（購入商品）が空だと購入できない' do
+        @purchase_address.item_id = ''
+        @purchase_address.valid?
+        expect(@purchase_address.errors.full_messages).to include("Item can't be blank")
+      end
+
 
       it "tokenが空では登録できないこと" do
         @purchase_address.token = nil
