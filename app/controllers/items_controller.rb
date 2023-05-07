@@ -23,8 +23,11 @@ class ItemsController < ApplicationController
   end
 
   def edit
-    if @item.user != current_user && @item.purchase.nil?
+    if @item.user != current_user
       redirect_to root_path
+    elsif @item.purchase != nil
+      redirect_to root_path
+    else
     end
   end
 
